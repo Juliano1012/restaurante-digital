@@ -1,0 +1,22 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fdf6e3;
+    text-align: center;
+  }
+  
+  .menu-buttons button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+  
+  .section {
+    display: none;
+    margin-top: 20px;
+  }
+  
+  .item {
+    margin: 5px 0;
+    font-size: 18px;
+  }
+  
