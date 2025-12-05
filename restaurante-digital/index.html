@@ -7,112 +7,211 @@
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <header>
+  <header class="app-header">
     <h1>Restaurante</h1>
-    <nav>
-      <button onclick="showSection('home')">Menu</button>
-      <button onclick="showSection('cart')">Carrinho</button>
-      <button onclick="showSection('pix')">Pix</button>
+    <nav class="top-nav">
+      <button class="nav-btn" data-section="home">Menu</button>
+      <button class="nav-btn" data-section="orders">Pedidos</button>
+      <button class="nav-btn" data-section="cart">Carrinho</button>
+      <button class="nav-btn" data-section="pix">Pix</button>
     </nav>
   </header>
 
-  <!-- Tela inicial -->
+  <!-- Home: main categories -->
   <section id="home" class="screen active">
-    <h2>Escolha uma categoria</h2>
-    <button onclick="showSection('foods')">Comidas</button>
-    <button onclick="showSection('drinks')">Bebidas</button>
-    <button onclick="showSection('desserts')">Doces</button>
+    <h2 class="home-title">RESTAURANTE</h2>
+    <div class="home-buttons">
+      <button class="big-btn" data-section="foods">COMIDAS</button>
+      <button class="big-btn" data-section="drinks">BEBIDAS</button>
+      <button class="big-btn" data-section="desserts">DOCES</button>
+    </div>
   </section>
 
-  <!-- Comidas -->
+  <!-- Foods: pizzas listing -->
   <section id="foods" class="screen">
-    <h2>Pizzas</h2>
-    <div class="grid">
+    <div class="category-nav">
+      <button class="tab-btn active" data-section="foods">Comidas</button>
+      <button class="tab-btn" data-section="drinks">Bebidas</button>
+      <button class="tab-btn" data-section="desserts">Doces</button>
+    </div>
+    <div class="grid-list">
       <article class="card">
-        <img src="images/calabresa.jpg" alt="Pizza Calabresa" class="card-img"/>
-        <h3>Calabresa</h3>
-        <p>R$ 18</p>
-        <button onclick="addItem('Calabresa',18)">Adicionar</button>
+        <div class="card-img pizza calabresa" aria-label="Pizza Calabresa"></div>
+        <div class="card-info">
+          <h3>Calabresa</h3>
+          <p class="price">R$ 18</p>
+          <button class="add-btn" data-item="Calabresa" data-price="18">Adicionar</button>
+        </div>
       </article>
       <article class="card">
-        <img src="images/margarita.jpg" alt="Pizza Margarita" class="card-img"/>
-        <h3>Margarita</h3>
-        <p>R$ 19</p>
-        <button onclick="addItem('Margarita',19)">Adicionar</button>
+        <div class="card-img pizza margarita" aria-label="Pizza Margarita"></div>
+        <div class="card-info">
+          <h3>Margarita</h3>
+          <p class="price">R$ 19</p>
+          <button class="add-btn" data-item="Margarita" data-price="19">Adicionar</button>
+        </div>
       </article>
       <article class="card">
-        <img src="images/quatro-queijos.jpg" alt="Pizza Quatro Queijos" class="card-img"/>
-        <h3>Quatro Queijos</h3>
-        <p>R$ 21</p>
-        <button onclick="addItem('Quatro Queijos',21)">Adicionar</button>
+        <div class="card-img pizza quatro-queijos" aria-label="Pizza Quatro Queijos"></div>
+        <div class="card-info">
+          <h3>Quatro Queijos</h3>
+          <p class="price">R$ 21</p>
+          <button class="add-btn" data-item="Quatro Queijos" data-price="21">Adicionar</button>
+        </div>
       </article>
     </div>
   </section>
 
-  <!-- Bebidas -->
+  <!-- Drinks listing -->
   <section id="drinks" class="screen">
-    <h2>Bebidas</h2>
-    <div class="grid">
+    <div class="category-nav">
+      <button class="tab-btn" data-section="foods">Comidas</button>
+      <button class="tab-btn active" data-section="drinks">Bebidas</button>
+      <button class="tab-btn" data-section="desserts">Doces</button>
+    </div>
+    <div class="grid-list">
       <article class="card">
-        <img src="images/coca.jpg" alt="Coca-Cola" class="card-img"/>
-        <h3>Coca-Cola</h3>
-        <p>R$ 8</p>
-        <button onclick="addItem('Coca-Cola',8)">Adicionar</button>
+        <div class="card-img drink coca" aria-label="Coca-Cola"></div>
+        <div class="card-info">
+          <h3>Coca-Cola</h3>
+          <p class="price">R$ 8</p>
+          <button class="add-btn" data-item="Coca-Cola" data-price="8">Adicionar</button>
+        </div>
       </article>
       <article class="card">
-        <img src="images/agua.jpg" alt="Água" class="card-img"/>
-        <h3>Água</h3>
-        <p>R$ 7</p>
-        <button onclick="addItem('Água',7)">Adicionar</button>
+        <div class="card-img drink agua" aria-label="Água"></div>
+        <div class="card-info">
+          <h3>Água</h3>
+          <p class="price">R$ 7</p>
+          <button class="add-btn" data-item="Água" data-price="7">Adicionar</button>
+        </div>
       </article>
       <article class="card">
-        <img src="images/suco.jpg" alt="Suco de Laranja" class="card-img"/>
-        <h3>Suco de Laranja</h3>
-        <p>R$ 11</p>
-        <button onclick="addItem('Suco de Laranja',11)">Adicionar</button>
+        <div class="card-img drink suco" aria-label="Suco de Laranja"></div>
+        <div class="card-info">
+          <h3>Suco de Laranja</h3>
+          <p class="price">R$ 11</p>
+          <button class="add-btn" data-item="Suco de Laranja" data-price="11">Adicionar</button>
+        </div>
       </article>
     </div>
   </section>
 
-  <!-- Doces -->
+  <!-- Desserts listing -->
   <section id="desserts" class="screen">
-    <h2>Doces</h2>
-    <div class="grid">
+    <div class="category-nav">
+      <button class="tab-btn" data-section="foods">Comidas</button>
+      <button class="tab-btn" data-section="drinks">Bebidas</button>
+      <button class="tab-btn active" data-section="desserts">Doces</button>
+    </div>
+    <div class="grid-list">
       <article class="card">
-        <img src="images/banana.jpg" alt="Pizza Banana" class="card-img"/>
-        <h3>Banana</h3>
-        <p>R$ 19</p>
-        <button onclick="addItem('Banana',19)">Adicionar</button>
+        <div class="card-img dessert banana" aria-label="Pizza Banana"></div>
+        <div class="card-info">
+          <h3>Banana</h3>
+          <p class="price">R$ 19</p>
+          <button class="view-btn" data-section="banana-detail">Ver detalhes</button>
+          <button class="add-btn" data-item="Banana" data-price="19">Adicionar</button>
+        </div>
       </article>
       <article class="card">
-        <img src="images/brigadeiro.jpg" alt="Pizza Brigadeiro" class="card-img"/>
-        <h3>Brigadeiro</h3>
-        <p>R$ 22</p>
-        <button onclick="addItem('Brigadeiro',22)">Adicionar</button>
+        <div class="card-img dessert brigadeiro" aria-label="Pizza Brigadeiro"></div>
+        <div class="card-info">
+          <h3>Brigadeiro</h3>
+          <p class="price">R$ 22</p>
+          <button class="add-btn" data-item="Brigadeiro" data-price="22">Adicionar</button>
+        </div>
       </article>
       <article class="card">
-        <img src="images/choco-branco.jpg" alt="Pizza Chocolate Branco" class="card-img"/>
-        <h3>Chocolate Branco</h3>
-        <p>R$ 20</p>
-        <button onclick="addItem('Chocolate Branco',20)">Adicionar</button>
+        <div class="card-img dessert choco-branco" aria-label="Pizza Chocolate Branco"></div>
+        <div class="card-info">
+          <h3>Chocolate Branco</h3>
+          <p class="price">R$ 20</p>
+          <button class="add-btn" data-item="Chocolate Branco" data-price="20">Adicionar</button>
+        </div>
       </article>
     </div>
   </section>
 
-  <!-- Carrinho -->
+  <!-- Item detail: Banana -->
+  <section id="banana-detail" class="screen">
+    <button class="back-btn" data-section="desserts">← Voltar</button>
+    <div class="detail">
+      <div class="detail-img dessert banana" aria-label="Pizza Banana"></div>
+      <div class="detail-info">
+        <h2>Banana</h2>
+        <p class="price">R$ 19</p>
+        <div class="ingredients">
+          <h4>INGREDIENTES</h4>
+          <ul>
+            <li>Banana</li>
+            <li>Canela</li>
+          </ul>
+        </div>
+        <div class="qty">
+          <button class="qty-btn" data-action="dec">-</button>
+          <span id="banana-qty">1</span>
+          <button class="qty-btn" data-action="inc">+</button>
+        </div>
+        <button class="primary-btn" id="banana-add">ADICIONAR AO PEDIDO</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cart -->
   <section id="cart" class="screen">
     <h2>Carrinho</h2>
-    <div id="cart-list"></div>
-    <p>Total: <span id="cart-total">R$ 0</span></p>
-    <button onclick="showSection('pix')">Pagar</button>
+    <div id="cart-list" class="cart-list"></div>
+    <div class="cart-footer">
+      <div class="total-line">
+        <span>Total</span>
+        <strong id="cart-total">R$ 0</strong>
+      </div>
+      <button class="primary-btn" data-section="pix">Pagar</button>
+    </div>
   </section>
 
-  <!-- Pix -->
-  <section id="pix" class="screen">
-    <h2>Pague com Pix</h2>
-    <div class="qr-placeholder">[QR Code Aqui]</div>
-    <p>Escaneie para pagar</p>
+  <!-- Orders management -->
+  <section id="orders" class="screen">
+    <h2>Pedidos</h2>
+    <div class="orders">
+      <article class="order-card">
+        <h3>Pedido #1023</h3>
+        <p><strong>Mesa:</strong> 04</p>
+        <p>Pizza Calabresa — sem cebola</p>
+        <p><strong>Tempo:</strong> 12 min</p>
+      </article>
+      <article class="order-card">
+        <h3>Pedido #1024</h3>
+        <p><strong>Mesa:</strong> 12</p>
+        <p>Coca-Cola 350ml — bem gelada</p>
+        <p><strong>Tempo:</strong> 5 min</p>
+      </article>
+      <article class="order-card">
+        <h3>Pedido #1025</h3>
+        <p><strong>Mesa:</strong> 02</p>
+        <p>4 queijos — com maionese</p>
+        <p><strong>Tempo:</strong> 18 min</p>
+      </article>
+    </div>
   </section>
+
+  <!-- Pix payment -->
+  <section id="pix" class="screen">
+    <div class="pix-frame">
+      <h2>PAGUE COM PIX</h2>
+      <div class="qr-area">
+        <!-- Placeholder QR; you can replace this with a real QR image -->
+        <div class="qr-placeholder" aria-label="QR Code Pix"></div>
+      </div>
+      <p class="pix-sub">Escaneie para pagar</p>
+      <div class="pix-logo">pix</div>
+    </div>
+  </section>
+
+  <footer class="app-footer">
+    <small>Interface inspirada nas telas fornecidas.</small>
+  </footer>
 
   <script src="script.js"></script>
 </body>
