@@ -83,5 +83,24 @@ document.getElementById('banana-add').addEventListener('click', () => {
   showSection('cart');
 });
 
+function addMultiple(name, price, qtyId) {
+  const qty = parseInt(document.getElementById(qtyId).textContent);
+  for (let i = 0; i < qty; i++) {
+    addItem(name, price);
+  }
+  showSection('cart');
+}
+
+document.querySelectorAll('.qty-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.target;
+    const span = document.getElementById(target);
+    let value = parseInt(span.textContent);
+    value = btn.dataset.action === 'inc' ? value + 1 : Math.max(1, value - 1);
+    span.textContent = value;
+  });
+});
+
+
 // Initialize cart view
 renderCart();
