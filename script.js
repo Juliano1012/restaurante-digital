@@ -1,8 +1,12 @@
-
 // ===================== Navegação =====================
 const showSection = (id) => {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+  const target = document.getElementById(id);
+  if (!target) {
+    console.warn('[showSection] seção não encontrada:', id);
+    return; // evita apagar a tela atual quando o id está incorreto
+  }
+  document.querySelectorAll('.screen.active').forEach(s => s.classList.remove('active'));
+  target.classList.add('active');
 };
 document.querySelectorAll('[data-section]').forEach(btn => {
   btn.addEventListener('click', () => showSection(btn.dataset.section));
@@ -17,7 +21,7 @@ let currentTable = Number(localStorage.getItem('currentTable')) || null;
 // ===================== Utils =====================
 const brl = (value) => `R$ ${value.toFixed(0)}`;
 const sanitize = (s = '') =>
-  s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  s.replace(/[&<>\"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const two = (n) => String(n).padStart(2, '0');
 const formatClock = (date) => `${two(date.getHours())}:${two(date.getMinutes())}`;
 const formatRemaining = (ms) => {
@@ -40,7 +44,7 @@ const formatRemaining = (ms) => {
     root.setAttribute('data-theme', mode);
     localStorage.setItem('theme', mode);
     if (btn) btn.textContent = mode === 'dark' ? '☀️' : '🌙';
-    // Re-render do QR para ajustar cores do tema
+    // Re-render do QR para ajustar cores/contraste no tema atual
     renderPrettyFakeQR();
   }
 
@@ -130,11 +134,14 @@ document.querySelectorAll('#banana-detail .qty-btn').forEach(b => {
     bananaQtyEl.textContent = bananaQty;
   });
 });
-document.getElementById('banana-add').addEventListener('click', () => {
-  const note = (document.getElementById('banana-note')?.value || '').trim();
-  addItem('Banana', 19, note, bananaQty);
-  showSection('cart');
-});
+const bananaAddBtn = document.getElementById('banana-add');
+if (bananaAddBtn) {
+  bananaAddBtn.addEventListener('click', () => {
+    const note = (document.getElementById('banana-note')?.value || '').trim();
+    addItem('Banana', 19, note, bananaQty);
+    showSection('cart');
+  });
+}
 function addMultiple(name, price, qtyId, noteId) {
   const qty = parseInt(document.getElementById(qtyId).textContent);
   const note = (noteId && document.getElementById(noteId))
@@ -306,172 +313,192 @@ setInterval(updateETAs, 1000);
 const payBtn = document.querySelector('#cart .primary-btn[data-section="pix"]');
 if (payBtn) payBtn.addEventListener('click', registrarPedido);
 
-// ===================== QR Bonitinho (Não Funcional) =====================
+// ===================== QR Bonitinho (visual de QR real / NÃO FUNCIONAL) =====================
 function renderPrettyFakeQR() {
   const svg = document.getElementById('qr-svg');
   if (!svg) return;
 
-  // Limpa anterior
   while (svg.firstChild) svg.removeChild(svg.firstChild);
 
-  // Tamanho e grid
-  const size = 260;                // px visuais
-  const modules = 29;              // grade 29x29 (parecido com QR real, só que falso)
-  const quiet = 4;                 // margem (quiet zone)
-  const moduleSize = (size - quiet * 2) / modules;
+  // QR v3-like: 29x29 módulos
+  const modules = 29;
+  const modulePx = 8;               // módulo = 8px no SVG (nítido)
+  const quietModules = 4;           // quiet zone de 4 módulos (padrão)
+  const quiet = quietModules * modulePx;
+  const inner = modules * modulePx;
+  const size = inner + quiet * 2;
 
+  // Cores
+  const cs = getComputedStyle(document.documentElement);
+  const accent = cs.getPropertyValue('--primary').trim() || '#b86b45';
+  const paper = '#ffffff';
+  const ink = '#111111';
+
+  // ViewBox e preserveAspect
   svg.setAttribute('viewBox', `0 0 ${size} ${size}`);
-  svg.setAttribute('width', size);
-  svg.setAttribute('height', size);
   svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
 
-  // Cores do tema
-  const root = getComputedStyle(document.documentElement);
-  const bg = root.getPropertyValue('--card').trim() || '#fff';
-  const fg = root.getPropertyValue('--text').trim() || '#111';
-  const accent = root.getPropertyValue('--primary').trim() || '#b86b45';
-
-  // Fundo arredondado com moldura em gradiente
+  // ---------- Defs: gradiente para a moldura externa ----------
   const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-  const grad = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+  const grad = document.createElementNS(defs.namespaceURI, 'linearGradient');
   grad.setAttribute('id', 'qrGrad');
-  grad.setAttribute('x1', '0');
-  grad.setAttribute('y1', '0');
-  grad.setAttribute('x2', '1');
-  grad.setAttribute('y2', '1');
-  const stop1 = document.createElementNS(grad.namespaceURI, 'stop');
+  grad.setAttribute('x1', '0'); grad.setAttribute('y1', '0');
+  grad.setAttribute('x2', '1'); grad.setAttribute('y2', '1');
+
+  const stop1 = document.createElementNS(defs.namespaceURI, 'stop');
   stop1.setAttribute('offset', '0%'); stop1.setAttribute('stop-color', accent);
-  const stop2 = document.createElementNS(grad.namespaceURI, 'stop');
-  stop2.setAttribute('offset', '100%'); stop2.setAttribute('stop-color', fg);
+  const stop2 = document.createElementNS(defs.namespaceURI, 'stop');
+  stop2.setAttribute('offset', '100%'); stop2.setAttribute('stop-color', ink);
+
   grad.appendChild(stop1); grad.appendChild(stop2);
   defs.appendChild(grad);
   svg.appendChild(defs);
 
+  // ---------- Moldura externa arredondada ----------
   const frame = document.createElementNS(svg.namespaceURI, 'rect');
-  frame.setAttribute('x', '0'); frame.setAttribute('y', '0');
-  frame.setAttribute('width', size); frame.setAttribute('height', size);
-  frame.setAttribute('rx', '18'); frame.setAttribute('ry', '18');
-  frame.setAttribute('fill', bg);
+  frame.setAttribute('x', '0');
+  frame.setAttribute('y', '0');
+  frame.setAttribute('width', size);
+  frame.setAttribute('height', size);
+  frame.setAttribute('rx', '18');
+  frame.setAttribute('ry', '18');
+  frame.setAttribute('fill', paper);
   frame.setAttribute('stroke', 'url(#qrGrad)');
   frame.setAttribute('stroke-width', '6');
   svg.appendChild(frame);
 
-  // Grupo para o mosaico
+  // Grupo interno (quiet zone)
   const g = document.createElementNS(svg.namespaceURI, 'g');
   g.setAttribute('transform', `translate(${quiet}, ${quiet})`);
   svg.appendChild(g);
 
-  // Áreas reservadas dos "finder patterns" (cantos)
-  const isInFinder = (r, c) => {
-    const inTL = r < 7 && c < 7;
-    const inTR = r < 7 && c >= modules - 7;
-    const inBL = r >= modules - 7 && c < 7;
-    return inTL || inTR || inBL;
+  // Matriz de reserva (para não sobrescrever padrões fixos)
+  const reserved = Array.from({ length: modules }, () => Array(modules).fill(false));
+  const reserveRect = (r0, c0, h, w) => {
+    for (let r = r0; r < r0 + h; r++) {
+      for (let c = c0; c < c0 + w; c++) {
+        if (r >= 0 && c >= 0 && r < modules && c < modules) reserved[r][c] = true;
+      }
+    }
   };
 
-  // Desenha mosaico pseudo-aleatório (não legível)
-  // Dica: centralizamos um "logo" depois, garantindo não leitura
-  const seed = Math.floor(Math.random() * 99999);
-  const rng = (n) => {
-    // LCG simples
-    let x = (n + seed) % 2147483647;
-    x = (x * 48271) % 2147483647;
-    return x / 2147483647;
+  // Helper para desenhar um módulo
+  const drawModule = (r, c, color = ink) => {
+    if (r < 0 || c < 0 || r >= modules || c >= modules) return;
+    const rect = document.createElementNS(svg.namespaceURI, 'rect');
+    rect.setAttribute('x', c * modulePx);
+    rect.setAttribute('y', r * modulePx);
+    rect.setAttribute('width', modulePx);
+    rect.setAttribute('height', modulePx);
+    rect.setAttribute('fill', color);
+    g.appendChild(rect);
   };
 
+  // ---------- Finder patterns reais (3 cantos) + separador branco ----------
+  const drawFinder = (topR, leftC) => {
+    // reserva 7x7 do finder + 1px separador ao redor
+    reserveRect(topR - 1, leftC - 1, 9, 9);
+
+    // 7x7 preto
+    for (let r = 0; r < 7; r++) for (let c = 0; c < 7; c++) drawModule(topR + r, leftC + c, ink);
+    // 5x5 branco
+    for (let r = 1; r < 6; r++) for (let c = 1; c < 6; c++) drawModule(topR + r, leftC + c, paper);
+    // 3x3 preto
+    for (let r = 2; r < 5; r++) for (let c = 2; c < 5; c++) drawModule(topR + r, leftC + c, ink);
+
+    // separador (1 módulo branco) contornando
+    for (let i = -1; i <= 7; i++) {
+      drawModule(topR - 1, leftC + i, paper);
+      drawModule(topR + 7, leftC + i, paper);
+      drawModule(topR + i, leftC - 1, paper);
+      drawModule(topR + i, leftC + 7, paper);
+    }
+  };
+  drawFinder(0, 0);
+  drawFinder(0, modules - 7);
+  drawFinder(modules - 7, 0);
+
+  // ---------- Timing pattern (linha 6 e coluna 6) ----------
+  for (let i = 8; i <= modules - 9; i++) {
+    reserved[6][i] = true;
+    reserved[i][6] = true;
+    drawModule(6, i, (i % 2 === 0) ? ink : paper);
+    drawModule(i, 6, (i % 2 === 0) ? ink : paper);
+  }
+
+  // ---------- Alignment pattern (v3 geralmente em 22,22) ----------
+  const drawAlignment = (cr, cc) => {
+    reserveRect(cr - 2, cc - 2, 5, 5);
+    for (let r = -2; r <= 2; r++) for (let c = -2; c <= 2; c++) drawModule(cr + r, cc + c, ink);
+    for (let r = -1; r <= 1; r++) for (let c = -1; c <= 1; c++) drawModule(cr + r, cc + c, paper);
+    drawModule(cr, cc, ink);
+  };
+  drawAlignment(22, 22);
+
+  // ---------- Centro reservado para o logo (9x9) ----------
+  const centerStart = 10, centerEnd = 18; // inclusive (9 módulos)
+  reserveRect(centerStart, centerStart, centerEnd - centerStart + 1, centerEnd - centerStart + 1);
+
+  // ---------- RNG determinístico (para não “piscar” a cada render) ----------
+  const tableSeed = Number(localStorage.getItem('currentTable') || 1);
+  const totalSeed = cart.reduce((s, x) => s + (x.price * x.qty), 0);
+  let seed = (tableSeed * 1103515245 + totalSeed * 12345 + 987654) >>> 0;
+  const rand = () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296);
+
+  // ---------- Dados “fake” com cara de QR (densidade ~50% + máscaras leves) ----------
   for (let r = 0; r < modules; r++) {
     for (let c = 0; c < modules; c++) {
-      if (isInFinder(r, c)) continue; // pulamos cantos
+      if (reserved[r][c]) continue;
 
-      // Deixamos uma zona central "logo" vazia (9x9)
-      const inCenter = (r >= 10 && r <= 18 && c >= 10 && c <= 18);
-      if (inCenter) continue;
+      const maskAdj =
+        ((r + c) % 2 === 0 ? 0.06 : -0.04) +
+        (r % 2 === 0 ? 0.02 : -0.02) +
+        (c % 3 === 0 ? 0.01 : 0);
 
-      // Padrão pseudo-randômico, mas com blocos mais densos nas bordas
-      const proximityEdge = Math.min(r, c, modules-1-r, modules-1-c);
-      const bias = proximityEdge < 5 ? 0.75 : 0.45; // mais preenchido perto da borda
-      const value = rng(r * modules + c);
-      const on = value < bias ? 1 : 0;
-
-      if (on) {
-        const rect = document.createElementNS(svg.namespaceURI, 'rect');
-        rect.setAttribute('x', c * moduleSize);
-        rect.setAttribute('y', r * moduleSize);
-        rect.setAttribute('width', moduleSize);
-        rect.setAttribute('height', moduleSize);
-        rect.setAttribute('rx', moduleSize * 0.2);
-        rect.setAttribute('ry', moduleSize * 0.2);
-        rect.setAttribute('fill', fg);
-        g.appendChild(rect);
-      }
+      const prob = 0.48 + maskAdj; // ~0.43..0.57
+      if (rand() < prob) drawModule(r, c, ink);
+      else drawModule(r, c, paper);
     }
   }
 
-  // Desenha "finder patterns" estilizados
-  const drawFinder = (x, y) => {
-    const group = document.createElementNS(svg.namespaceURI, 'g');
-    group.setAttribute('transform', `translate(${x * moduleSize}, ${y * moduleSize})`);
-    const layers = [
-      { s: 7, color: fg, radius: 4 },
-      { s: 5, color: bg, radius: 4 },
-      { s: 3, color: fg, radius: 3 },
-    ];
-    layers.forEach(l => {
-      const rect = document.createElementNS(svg.namespaceURI, 'rect');
-      rect.setAttribute('x', 0);
-      rect.setAttribute('y', 0);
-      rect.setAttribute('width', l.s * moduleSize);
-      rect.setAttribute('height', l.s * moduleSize);
-      rect.setAttribute('rx', l.radius);
-      rect.setAttribute('ry', l.radius);
-      rect.setAttribute('fill', l.color);
-      group.appendChild(rect);
-    });
-    g.appendChild(group);
-  };
-  drawFinder(0, 0);               // topo-esquerda
-  drawFinder(modules - 7, 0);      // topo-direita
-  drawFinder(0, modules - 7);      // baixo-esquerda
-
-  // Pequenos "alignment dots" decorativos
-  const dots = [
-    { r: 8, c: modules - 9 },
-    { r: modules - 9, c: modules - 9 },
-    { r: modules - 9, c: 8 },
+  // ---------- Poucas “sabotagens” em accent (não bloqueiam visual) ----------
+  const sabotages = [
+    { r: 8, c: 13 }, { r: 13, c: 8 }, { r: 13, c: 20 }, { r: 20, c: 13 }
   ];
-  dots.forEach(d => {
-    const cx = (d.c + 0.5) * moduleSize;
-    const cy = (d.r + 0.5) * moduleSize;
-    const circle = document.createElementNS(svg.namespaceURI, 'circle');
-    circle.setAttribute('cx', cx);
-    circle.setAttribute('cy', cy);
-    circle.setAttribute('r', moduleSize * 0.9);
-    circle.setAttribute('fill', accent);
-    g.appendChild(circle);
-  });
+  sabotages.forEach(p => drawModule(p.r, p.c, accent));
 
-  // Logo central (o elemento HTML .qr-logo por cima também cobre)
-  const center = document.createElementNS(svg.namespaceURI, 'rect');
-  center.setAttribute('x', (10 * moduleSize));
-  center.setAttribute('y', (10 * moduleSize));
-  center.setAttribute('width', 9 * moduleSize);
-  center.setAttribute('height', 9 * moduleSize);
-  center.setAttribute('rx', 12);
-  center.setAttribute('ry', 12);
-  center.setAttribute('fill', bg);
-  center.setAttribute('stroke', accent);
-  center.setAttribute('stroke-width', '2');
-  g.appendChild(center);
+  // ---------- Janela central (borda em accent) ----------
+  const centerRect = document.createElementNS(svg.namespaceURI, 'rect');
+  centerRect.setAttribute('x', centerStart * modulePx);
+  centerRect.setAttribute('y', centerStart * modulePx);
+  centerRect.setAttribute('width', (centerEnd - centerStart + 1) * modulePx);
+  centerRect.setAttribute('height', (centerEnd - centerStart + 1) * modulePx);
+  centerRect.setAttribute('rx', '12');
+  centerRect.setAttribute('ry', '12');
+  centerRect.setAttribute('fill', paper);
+  centerRect.setAttribute('stroke', accent);
+  centerRect.setAttribute('stroke-width', '2');
+  g.appendChild(centerRect);
+
+  // ---------- Borda interna fina (accent) contornando toda a matriz ----------
+  const innerBorder = document.createElementNS(svg.namespaceURI, 'rect');
+  innerBorder.setAttribute('x', -modulePx * 0.5);
+  innerBorder.setAttribute('y', -modulePx * 0.5);
+  innerBorder.setAttribute('width', inner + modulePx);
+  innerBorder.setAttribute('height', inner + modulePx);
+  innerBorder.setAttribute('rx', '10');
+  innerBorder.setAttribute('ry', '10');
+  innerBorder.setAttribute('fill', 'none');
+  innerBorder.setAttribute('stroke', accent);
+  innerBorder.setAttribute('stroke-width', '3');
+  innerBorder.setAttribute('stroke-linejoin', 'round');
+  g.insertBefore(innerBorder, g.firstChild);
 }
 
-// Chama ao carregar
-document.addEventListener('DOMContentLoaded', () => {
-  renderPrettyFakeQR();
-});
-
-// ===================== Inicialização comum =====================
+// ===================== Inicialização =====================
 renderCart();
 renderPedidos();
 renderKitchen();
 updateTableUI();
 updateETAs();
+renderPrettyFakeQR();

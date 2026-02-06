@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -420,6 +419,39 @@
     </div>
   </section>
 
+  <!-- ✅ NOVO: Detalhes BRIGADEIRO (Chocolate preto) -->
+  <section id="brigadeiro-detail" class="screen">
+    <button class="back-btn" data-section="desserts">← Voltar</button>
+    <div class="detail">
+      <div class="detail-img">
+        <img class="card-img" alt="Pizza Brigadeiro"
+             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKOLJOwM2sW1lHLzravC753D51NpGIE3sVag&s">
+      </div>
+      <div class="detail-info">
+        <h2>Brigadeiro</h2>
+        <p class="price">R$ 22</p>
+        <div class="ingredients">
+          <h4>INGREDIENTES</h4>
+          <ul>
+            <li>Chocolate ao leite</li>
+            <li>Granulado de chocolate</li>
+            <li>Base de massa doce</li>
+          </ul>
+        </div>
+        <div class="note-field">
+          <label for="brigadeiro-note">Observações</label>
+          <textarea id="brigadeiro-note" class="note-input" placeholder="Ex.: extra granulado"></textarea>
+        </div>
+        <div class="qty">
+          <button class="qty-btn" data-action="dec" data-target="brigadeiro-qty">-</button>
+          <span id="brigadeiro-qty">1</span>
+          <button class="qty-btn" data-action="inc" data-target="brigadeiro-qty">+</button>
+        </div>
+        <button class="primary-btn" onclick="addMultiple('Brigadeiro', 22, 'brigadeiro-qty', 'brigadeiro-note')">ADICIONAR AO PEDIDO</button>
+      </div>
+    </div>
+  </section>
+
   <!-- Carrinho -->
   <section id="cart" class="screen">
     <h2>Carrinho</h2>
@@ -453,36 +485,33 @@
     <div id="kitchen-queue" class="orders"></div>
   </section>
 
-  <!-- Pix com QR FAKE BONITINHO -->
-  <section id="pix" class="screen">
-    <div class="pix-frame">
-      <h2>PAGUE COM PIX</h2>
+  <!-- Pix -->
+<section id="pix" class="screen">
+  <div class="pix-frame">
+    <h2>PAGUE COM PIX</h2>
 
-      <!-- NOVO: Cartão com QR Decorativo (não funcional) -->
-      <div class="qr-card" aria-label="QR Code decorativo (não funcional)">
-        <div class="qr-frame">
-          <!-- SVG gerado via JS -->
-          <svg id="qr-svg" class="qr-svg" role="img" aria-label="Ilustração de QR code decorativa"></svg>
-
-          <!-- Logo central cobrindo a leitura (garante ser não escaneável) -->
-          <div class="qr-logo" aria-hidden="true">pix</div>
-        </div>
-
-        <div class="qr-caption">
-          <div class="qr-badge">QR decorativo</div>
-          <p>Este QR é apenas visual e não leva a lugar nenhum.</p>
-        </div>
+    <!-- QR “igual real” (visual), mas não funcional -->
+    <div class="qr-card" aria-label="QR Code decorativo (não funcional)">
+      <div class="qr-frame">
+        <svg id="qr-svg" class="qr-svg" role="img" aria-label="Ilustração de QR code decorativa"></svg>
+        <div class="qr-logo" aria-hidden="true">pix</div>
       </div>
 
-      <p class="pix-sub">Mostre este QR apenas como referência visual</p>
-      <div class="pix-logo">pix</div>
+      <div class="qr-caption">
+        <div class="qr-badge">QR decorativo</div>
+        <p>Este QR é apenas visual e não leva a lugar nenhum.</p>
+      </div>
     </div>
-  </section>
 
-  <footer class="app-footer">
-    <small>Interface inspirada nas telas fornecidas.</small>
-  </footer>
+    <p class="pix-sub">Mostre este QR apenas como referência visual</p>
+    <div class="pix-logo">pix</div>
+  </div>
+</section>
 
-  <script src="script.js"></script>
+<footer class="app-footer">
+  <small>Interface inspirada nas telas fornecidas.</small>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
