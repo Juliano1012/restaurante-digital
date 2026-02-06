@@ -1,23 +1,35 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- Mobile-friendly + safe areas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
   <title>Restaurante</title>
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="app-header">
     <h1>Restaurante</h1>
+
     <nav class="top-nav">
       <button class="nav-btn" data-section="home">Menu</button>
       <button class="nav-btn" data-section="orders">Pedidos</button>
       <button class="nav-btn" data-section="cart">Carrinho</button>
       <button class="nav-btn" data-section="pix">Pix</button>
+      <button class="nav-btn" data-section="kitchen">Cozinha</button>
     </nav>
+
+    <!-- Status da mesa -->
+    <div class="table-status">
+      Mesa: <strong id="header-table">--</strong>
+    </div>
+
+    <!-- Toggle tema -->
+    <button id="theme-toggle" class="icon-btn" aria-label="Alternar tema" title="Alternar tema">🌙</button>
   </header>
 
-  <!-- Home: main categories -->
+  <!-- Home -->
   <section id="home" class="screen active">
     <h2 class="home-title">RESTAURANTE</h2>
     <div class="home-buttons">
@@ -27,7 +39,7 @@
     </div>
   </section>
 
-  <!-- Foods: pizzas listing -->
+  <!-- Foods -->
   <section id="foods" class="screen">
     <div class="category-nav">
       <button class="tab-btn active" data-section="foods">Comidas</button>
@@ -36,7 +48,8 @@
     </div>
     <div class="grid-list">
       <article class="card">
-        <img src="https://cdn0.tudoreceitas.com/pt/posts/9/8/3/pizza_calabresa_e_mussarela_4389_600.jpg" alt="Pizza Calabresa" class="card-img"/>
+        <img class="card-img" alt="Pizza Calabresa"
+             src="https://cdn0.tudoreceitas.com/pt/posts/9/8/3/pizza_calabresa_e_mussarela_4389_600.jpg">
         <div class="card-info">
           <h3>Calabresa</h3>
           <p class="price">R$ 18</p>
@@ -45,7 +58,8 @@
         </div>
       </article>
       <article class="card">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0KFDZkjY8zVpr1ftr2n7Rm_OLf0Eq3inoxw&s" alt="Pizza Margarita" class="card-img"/>
+        <img class="card-img" alt="Pizza Margarita"
+             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0KFDZkjY8zVpr1ftr2n7Rm_OLf0Eq3inoxw&s">
         <div class="card-info">
           <h3>Margarita</h3>
           <p class="price">R$ 19</p>
@@ -54,7 +68,8 @@
         </div>
       </article>
       <article class="card">
-        <img src="https://s2-receitas.glbimg.com/SNnnOIl92uii5_Dg5JtCydNmrOU=/600x0/filters:quality(50)/https://i.s3.glbimg.com/v1/AUTH_1f540e0b94d8437dbbc39d567a1dee68/internal_photos/bs/2024/V/2/rafz5yTJuSiHGDoolkpg/pizza-de-4-queijos.jpg" alt="Pizza Quatro Queijos" class="card-img"/>
+        <img class="card-img" alt="Pizza Quatro Queijos"
+             src="https://s2-receitas.glbimg.com/SNnnOIl92uii5_Dg5JtCydNmrOU=/600x0/filters:quality(50)/https://i.s3.glbimg.com/v1/AUTH_1f540e0b94d8437dbbc39d567a1dee68/internal_photos/bs/2024/V/2/rafz5yTJuSiHGDoolkpg/pizza-de-4-queijos.jpg">
         <div class="card-info">
           <h3>Quatro Queijos</h3>
           <p class="price">R$ 21</p>
@@ -62,11 +77,10 @@
           <button class="add-btn" data-item="Quatro Queijos" data-price="21">Adicionar</button>
         </div>
       </article>
-      
     </div>
   </section>
 
-  <!-- Drinks listing -->
+  <!-- Drinks -->
   <section id="drinks" class="screen">
     <div class="category-nav">
       <button class="tab-btn" data-section="foods">Comidas</button>
@@ -75,7 +89,8 @@
     </div>
     <div class="grid-list">
       <article class="card">
-        <img src="https://static.vecteezy.com/ti/fotos-gratis/p2/2303867-copo-de-coca-cola-de-edicao-limitada-gratis-foto.jpg" alt="Coca-Cola" class="card-img"/>
+        <img class="card-img" alt="Coca-Cola"
+             src="https://static.vecteezy.com/ti/fotos-gratis/p2/2303867-copo-de-coca-cola-de-edicao-limitada-gratis-foto.jpg">
         <div class="card-info">
           <h3>Coca-Cola</h3>
           <p class="price">R$ 8</p>
@@ -84,7 +99,8 @@
         </div>
       </article>
       <article class="card">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSImQBLYk1Hy4xv1nnBHH_GLhu7yANuJOgfIw&s" alt="Água" class="card-img"/>
+        <img class="card-img" alt="Água"
+             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSImQBLYk1Hy4xv1nnBHH_GLhu7yANuJOgfIw&s">
         <div class="card-info">
           <h3>Água</h3>
           <p class="price">R$ 7</p>
@@ -93,7 +109,8 @@
         </div>
       </article>
       <article class="card">
-        <img src="https://img.freepik.com/fotos-gratis/vidro-do-sumo-de-laranja-colocado-na-madeira_1150-9666.jpg?semt=ais_se_enriched&w=740&q=80" alt="Suco de Laranja" class="card-img"/>
+        <img class="card-img" alt="Suco de Laranja"
+             src="https://img.freepik.com/fotos-gratis/vidro-do-sumo-de-laranja-colocado-na-madeira_1150-9666.jpg?semt=ais_se_enriched&w=740&q=80">
         <div class="card-info">
           <h3>Suco de Laranja</h3>
           <p class="price">R$ 11</p>
@@ -101,11 +118,10 @@
           <button class="add-btn" data-item="Suco de Laranja" data-price="11">Adicionar</button>
         </div>
       </article>
-      
     </div>
   </section>
 
-  <!-- Desserts listing -->
+  <!-- Desserts -->
   <section id="desserts" class="screen">
     <div class="category-nav">
       <button class="tab-btn" data-section="foods">Comidas</button>
@@ -114,7 +130,8 @@
     </div>
     <div class="grid-list">
       <article class="card">
-        <img src="https://guiadacozinha.com.br/wp-content/uploads/2007/01/pizzadebananaecanela.jpg" alt="Pizza Banana" class="card-img"/>
+        <img class="card-img" alt="Pizza Banana"
+             src="https://guiadacozinha.com.br/wp-content/uploads/2007/01/pizzadebananaecanela.jpg">
         <div class="card-info">
           <h3>Banana</h3>
           <p class="price">R$ 19</p>
@@ -123,7 +140,8 @@
         </div>
       </article>
       <article class="card">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKOLJOwM2sW1lHLzravC753D51NpGIE3sVag&s" alt="Pizza Brigadeiro" class="card-img"/>
+        <img class="card-img" alt="Pizza Brigadeiro"
+             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKOLJOwM2sW1lHLzravC753D51NpGIE3sVag&s">
         <div class="card-info">
           <h3>Brigadeiro</h3>
           <p class="price">R$ 22</p>
@@ -132,7 +150,8 @@
         </div>
       </article>
       <article class="card">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRk_aMAT6R07680rwzUMrCIFuqlQ7UI9gFI7g&s" alt="Pizza Chocolate Branco" class="card-img"/>
+        <img class="card-img" alt="Pizza Chocolate Branco"
+             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRk_aMAT6R07680rwzUMrCIFuqlQ7UI9gFI7g&s">
         <div class="card-info">
           <h3>Chocolate Branco</h3>
           <p class="price">R$ 20</p>
@@ -140,17 +159,17 @@
           <button class="add-btn" data-item="Chocolate Branco" data-price="20">Adicionar</button>
         </div>
       </article>
-      
     </div>
   </section>
 
-  <!-- Item detail: -->
+  <!-- Detalhes BANANA -->
   <section id="banana-detail" class="screen">
     <button class="back-btn" data-section="desserts">← Voltar</button>
-    <div class="detail-img">
-      <img src="https://guiadacozinha.com.br/wp-content/uploads/2007/01/pizzadebananaecanela.jpg" alt="Pizza Banana" class="card-img"/>
-    </div>
-    
+    <div class="detail">
+      <div class="detail-img">
+        <img class="card-img" alt="Pizza Banana"
+             src="https://guiadacozinha.com.br/wp-content/uploads/2007/01/pizzadebananaecanela.jpg">
+      </div>
       <div class="detail-info">
         <h2>Banana</h2>
         <p class="price">R$ 19</p>
@@ -160,6 +179,10 @@
             <li>Banana</li>
             <li>Canela</li>
           </ul>
+        </div>
+        <div class="note-field">
+          <label for="banana-note">Observações</label>
+          <textarea id="banana-note" class="note-input" placeholder="Ex.: sem canela, pouco açúcar"></textarea>
         </div>
         <div class="qty">
           <button class="qty-btn" data-action="dec">-</button>
@@ -171,11 +194,13 @@
     </div>
   </section>
 
+  <!-- Detalhes CALABRESA -->
   <section id="calabresa-detail" class="screen">
     <button class="back-btn" data-section="foods">← Voltar</button>
     <div class="detail">
       <div class="detail-img">
-        <img src="https://cdn0.tudoreceitas.com/pt/posts/9/8/3/pizza_calabresa_e_mussarela_4389_600.jpg" alt="Pizza Calabresa" class="card-img"/>
+        <img class="card-img" alt="Pizza Calabresa"
+             src="https://cdn0.tudoreceitas.com/pt/posts/9/8/3/pizza_calabresa_e_mussarela_4389_600.jpg">
       </div>
       <div class="detail-info">
         <h2>Calabresa</h2>
@@ -188,22 +213,27 @@
             <li>Molho de tomate</li>
           </ul>
         </div>
+        <div class="note-field">
+          <label for="calabresa-note">Observações</label>
+          <textarea id="calabresa-note" class="note-input" placeholder="Ex.: sem cebola, borda recheada"></textarea>
+        </div>
         <div class="qty">
           <button class="qty-btn" data-action="dec" data-target="calabresa-qty">-</button>
           <span id="calabresa-qty">1</span>
           <button class="qty-btn" data-action="inc" data-target="calabresa-qty">+</button>
         </div>
-        <button class="primary-btn" onclick="addMultiple('Calabresa', 18, 'calabresa-qty')">ADICIONAR AO PEDIDO</button>
+        <button class="primary-btn" onclick="addMultiple('Calabresa', 18, 'calabresa-qty', 'calabresa-note')">ADICIONAR AO PEDIDO</button>
       </div>
     </div>
   </section>
-  
-  
+
+  <!-- Detalhes MARGARITA -->
   <section id="margarita-detail" class="screen">
     <button class="back-btn" data-section="foods">← Voltar</button>
     <div class="detail">
       <div class="detail-img">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0KFDZkjY8zVpr1ftr2n7Rm_OLf0Eq3inoxw&s" alt="Pizza Margarita" class="card-img"/>
+        <img class="card-img" alt="Pizza Margarita"
+             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0KFDZkjY8zVpr1ftr2n7Rm_OLf0Eq3inoxw&s">
       </div>
       <div class="detail-info">
         <h2>Margarita</h2>
@@ -216,21 +246,27 @@
             <li>Manjericão fresco</li>
           </ul>
         </div>
+        <div class="note-field">
+          <label for="margarita-note">Observações</label>
+          <textarea id="margarita-note" class="note-input" placeholder="Ex.: extra manjericão"></textarea>
+        </div>
         <div class="qty">
           <button class="qty-btn" data-action="dec" data-target="margarita-qty">-</button>
           <span id="margarita-qty">1</span>
           <button class="qty-btn" data-action="inc" data-target="margarita-qty">+</button>
         </div>
-        <button class="primary-btn" onclick="addMultiple('Margarita', 19, 'margarita-qty')">ADICIONAR AO PEDIDO</button>
+        <button class="primary-btn" onclick="addMultiple('Margarita', 19, 'margarita-qty', 'margarita-note')">ADICIONAR AO PEDIDO</button>
       </div>
     </div>
   </section>
 
+  <!-- Detalhes QUATRO QUEIJOS -->
   <section id="quatro-detail" class="screen">
     <button class="back-btn" data-section="foods">← Voltar</button>
     <div class="detail">
       <div class="detail-img">
-        <img src="https://s2-receitas.glbimg.com/SNnnOIl92uii5_Dg5JtCydNmrOU=/600x0/filters:quality(50)/https://i.s3.glbimg.com/v1/AUTH_1f540e0b94d8437dbbc39d567a1dee68/internal_photos/bs/2024/V/2/rafz5yTJuSiHGDoolkpg/pizza-de-4-queijos.jpg" alt="Pizza Quatro Queijos" class="card-img"/>
+        <img class="card-img" alt="Pizza Quatro Queijos"
+             src="https://s2-receitas.glbimg.com/SNnnOIl92uii5_Dg5JtCydNmrOU=/600x0/filters:quality(50)/https://i.s3.glbimg.com/v1/AUTH_1f540e0b94d8437dbbc39d567a1dee68/internal_photos/bs/2024/V/2/rafz5yTJuSiHGDoolkpg/pizza-de-4-queijos.jpg">
       </div>
       <div class="detail-info">
         <h2>Quatro Queijos</h2>
@@ -244,21 +280,27 @@
             <li>Provolone</li>
           </ul>
         </div>
+        <div class="note-field">
+          <label for="quatro-note">Observações</label>
+          <textarea id="quatro-note" class="note-input" placeholder="Ex.: sem gorgonzola"></textarea>
+        </div>
         <div class="qty">
           <button class="qty-btn" data-action="dec" data-target="quatro-qty">-</button>
           <span id="quatro-qty">1</span>
           <button class="qty-btn" data-action="inc" data-target="quatro-qty">+</button>
         </div>
-        <button class="primary-btn" onclick="addMultiple('Quatro Queijos', 21, 'quatro-qty')">ADICIONAR AO PEDIDO</button>
+        <button class="primary-btn" onclick="addMultiple('Quatro Queijos', 21, 'quatro-qty', 'quatro-note')">ADICIONAR AO PEDIDO</button>
       </div>
     </div>
   </section>
 
+  <!-- Detalhes COCA -->
   <section id="coca-detail" class="screen">
     <button class="back-btn" data-section="drinks">← Voltar</button>
     <div class="detail">
       <div class="detail-img">
-        <img src="https://static.vecteezy.com/ti/fotos-gratis/p2/2303867-copo-de-coca-cola-de-edicao-limitada-gratis-foto.jpg" alt="Coca-Cola" class="card-img"/>
+        <img class="card-img" alt="Coca-Cola"
+             src="https://static.vecteezy.com/ti/fotos-gratis/p2/2303867-copo-de-coca-cola-de-edicao-limitada-gratis-foto.jpg">
       </div>
       <div class="detail-info">
         <h2>Coca-Cola</h2>
@@ -269,22 +311,27 @@
             <li>Refrigerante de cola</li>
           </ul>
         </div>
+        <div class="note-field">
+          <label for="coca-note">Observações</label>
+          <textarea id="coca-note" class="note-input" placeholder="Ex.: extra gelo, sem gelo"></textarea>
+        </div>
         <div class="qty">
           <button class="qty-btn" data-action="dec" data-target="coca-qty">-</button>
           <span id="coca-qty">1</span>
           <button class="qty-btn" data-action="inc" data-target="coca-qty">+</button>
         </div>
-        <button class="primary-btn" onclick="addMultiple('Coca-Cola', 8, 'coca-qty')">ADICIONAR AO PEDIDO</button>
+        <button class="primary-btn" onclick="addMultiple('Coca-Cola', 8, 'coca-qty', 'coca-note')">ADICIONAR AO PEDIDO</button>
       </div>
     </div>
   </section>
-  
 
+  <!-- Detalhes ÁGUA -->
   <section id="agua-detail" class="screen">
     <button class="back-btn" data-section="drinks">← Voltar</button>
     <div class="detail">
       <div class="detail-img">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSImQBLYk1Hy4xv1nnBHH_GLhu7yANuJOgfIw&s" alt="Água" class="card-img"/>
+        <img class="card-img" alt="Água"
+             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSImQBLYk1Hy4xv1nnBHH_GLhu7yANuJOgfIw&s">
       </div>
       <div class="detail-info">
         <h2>Água</h2>
@@ -295,21 +342,27 @@
             <li>Água mineral</li>
           </ul>
         </div>
+        <div class="note-field">
+          <label for="agua-note">Observações</label>
+          <textarea id="agua-note" class="note-input" placeholder="Ex.: com gás / sem gás"></textarea>
+        </div>
         <div class="qty">
           <button class="qty-btn" data-action="dec" data-target="agua-qty">-</button>
           <span id="agua-qty">1</span>
           <button class="qty-btn" data-action="inc" data-target="agua-qty">+</button>
         </div>
-        <button class="primary-btn" onclick="addMultiple('Água', 7, 'agua-qty')">ADICIONAR AO PEDIDO</button>
+        <button class="primary-btn" onclick="addMultiple('Água', 7, 'agua-qty', 'agua-note')">ADICIONAR AO PEDIDO</button>
       </div>
     </div>
   </section>
 
+  <!-- Detalhes SUCO -->
   <section id="suco-detail" class="screen">
     <button class="back-btn" data-section="drinks">← Voltar</button>
     <div class="detail">
       <div class="detail-img">
-        <img src="https://img.freepik.com/fotos-gratis/vidro-do-sumo-de-laranja-colocado-na-madeira_1150-9666.jpg?semt=ais_se_enriched&w=740&q=80" alt="Suco de Laranja" class="card-img"/>
+        <img class="card-img" alt="Suco de Laranja"
+             src="https://img.freepik.com/fotos-gratis/vidro-do-sumo-de-laranja-colocado-na-madeira_1150-9666.jpg?semt=ais_se_enriched&w=740&q=80">
       </div>
       <div class="detail-info">
         <h2>Suco de Laranja</h2>
@@ -320,48 +373,27 @@
             <li>Laranja natural</li>
           </ul>
         </div>
+        <div class="note-field">
+          <label for="suco-note">Observações</label>
+          <textarea id="suco-note" class="note-input" placeholder="Ex.: sem açúcar, com gelo"></textarea>
+        </div>
         <div class="qty">
           <button class="qty-btn" data-action="dec" data-target="suco-qty">-</button>
           <span id="suco-qty">1</span>
           <button class="qty-btn" data-action="inc" data-target="suco-qty">+</button>
         </div>
-        <button class="primary-btn" onclick="addMultiple('Suco de Laranja', 11, 'suco-qty')">ADICIONAR AO PEDIDO</button>
+        <button class="primary-btn" onclick="addMultiple('Suco de Laranja', 11, 'suco-qty', 'suco-note')">ADICIONAR AO PEDIDO</button>
       </div>
     </div>
   </section>
-  
-  <section id="brigadeiro-detail" class="screen">
-    <button class="back-btn" data-section="desserts">← Voltar</button>
-    <div class="detail">
-      <div class="detail-img">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKOLJOwM2sW1lHLzravC753D51NpGIE3sVag&s" alt="Pizza Brigadeiro" class="card-img"/>
-      </div>
-      <div class="detail-info">
-        <h2>Brigadeiro</h2>
-        <p class="price">R$ 22</p>
-        <div class="ingredients">
-          <h4>INGREDIENTES</h4>
-          <ul>
-            <li>Chocolate ao leite</li>
-            <li>Granulado</li>
-            <li>Leite condensado</li>
-          </ul>
-        </div>
-        <div class="qty">
-          <button class="qty-btn" data-action="dec" data-target="brigadeiro-qty">-</button>
-          <span id="brigadeiro-qty">1</span>
-          <button class="qty-btn" data-action="inc" data-target="brigadeiro-qty">+</button>
-        </div>
-        <button class="primary-btn" onclick="addMultiple('Brigadeiro', 22, 'brigadeiro-qty')">ADICIONAR AO PEDIDO</button>
-      </div>
-    </div>
-  </section>
-  
+
+  <!-- Detalhes CHOCO BRANCO -->
   <section id="choco-detail" class="screen">
     <button class="back-btn" data-section="desserts">← Voltar</button>
     <div class="detail">
       <div class="detail-img">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRk_aMAT6R07680rwzUMrCIFuqlQ7UI9gFI7g&s" alt="Pizza Chocolate Branco" class="card-img"/>
+        <img class="card-img" alt="Pizza Chocolate Branco"
+             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRk_aMAT6R07680rwzUMrCIFuqlQ7UI9gFI7g&s">
       </div>
       <div class="detail-info">
         <h2>Chocolate Branco</h2>
@@ -374,20 +406,28 @@
             <li>Base de massa doce</li>
           </ul>
         </div>
+        <div class="note-field">
+          <label for="choco-note">Observações</label>
+          <textarea id="choco-note" class="note-input" placeholder="Ex.: extra chocolate"></textarea>
+        </div>
         <div class="qty">
           <button class="qty-btn" data-action="dec" data-target="choco-qty">-</button>
           <span id="choco-qty">1</span>
           <button class="qty-btn" data-action="inc" data-target="choco-qty">+</button>
         </div>
-        <button class="primary-btn" onclick="addMultiple('Chocolate Branco', 20, 'choco-qty')">ADICIONAR AO PEDIDO</button>
+        <button class="primary-btn" onclick="addMultiple('Chocolate Branco', 20, 'choco-qty', 'choco-note')">ADICIONAR AO PEDIDO</button>
       </div>
     </div>
   </section>
-  
 
-  <!-- Cart -->
+  <!-- Carrinho -->
   <section id="cart" class="screen">
     <h2>Carrinho</h2>
+    <div class="table-picker">
+      <label for="table-input">Mesa</label>
+      <input id="table-input" type="number" min="1" max="50" step="1" placeholder="Número da mesa" inputmode="numeric" />
+      <small class="table-hint">Escolha a mesa antes de pagar.</small>
+    </div>
     <div id="cart-list" class="cart-list"></div>
     <div class="cart-footer">
       <div class="total-line">
@@ -398,40 +438,43 @@
     </div>
   </section>
 
-  <!-- Orders management -->
+  <!-- Pedidos -->
   <section id="orders" class="screen">
     <h2>Pedidos</h2>
-    <div class="orders">
-      <article class="order-card">
-        <h3>Pedido #1023</h3>
-        <p><strong>Mesa:</strong> 04</p>
-        <p>Pizza Calabresa — sem cebola</p>
-        <p><strong>Tempo:</strong> 12 min</p>
-      </article>
-      <article class="order-card">
-        <h3>Pedido #1024</h3>
-        <p><strong>Mesa:</strong> 12</p>
-        <p>Coca-Cola 350ml — bem gelada</p>
-        <p><strong>Tempo:</strong> 5 min</p>
-      </article>
-      <article class="order-card">
-        <h3>Pedido #1025</h3>
-        <p><strong>Mesa:</strong> 02</p>
-        <p>4 queijos — com maionese</p>
-        <p><strong>Tempo:</strong> 18 min</p>
-      </article>
-    </div>
+    <div class="orders"></div>
   </section>
 
-  <!-- Pix payment -->
+  <!-- Cozinha -->
+  <section id="kitchen" class="screen">
+    <h2>Cozinha</h2>
+    <div class="kitchen-meta">
+      <span><strong>Em fila:</strong> <span id="kitchen-count">0</span></span>
+    </div>
+    <div id="kitchen-queue" class="orders"></div>
+  </section>
+
+  <!-- Pix com QR FAKE BONITINHO -->
   <section id="pix" class="screen">
     <div class="pix-frame">
       <h2>PAGUE COM PIX</h2>
-      <div class="qr-area">
-        <!-- Placeholder QR; you can replace this with a real QR image -->
-        <div class="qr-placeholder" aria-label="QR Code Pix"></div>
+
+      <!-- NOVO: Cartão com QR Decorativo (não funcional) -->
+      <div class="qr-card" aria-label="QR Code decorativo (não funcional)">
+        <div class="qr-frame">
+          <!-- SVG gerado via JS -->
+          <svg id="qr-svg" class="qr-svg" role="img" aria-label="Ilustração de QR code decorativa"></svg>
+
+          <!-- Logo central cobrindo a leitura (garante ser não escaneável) -->
+          <div class="qr-logo" aria-hidden="true">pix</div>
+        </div>
+
+        <div class="qr-caption">
+          <div class="qr-badge">QR decorativo</div>
+          <p>Este QR é apenas visual e não leva a lugar nenhum.</p>
+        </div>
       </div>
-      <p class="pix-sub">Escaneie para pagar</p>
+
+      <p class="pix-sub">Mostre este QR apenas como referência visual</p>
       <div class="pix-logo">pix</div>
     </div>
   </section>
